@@ -25,7 +25,7 @@ SECRET_KEY = ')xws+m$uo5-c1kr!e@t(94u11=@543hi=xpfrtm@ge3tdg(k9@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'lccontestgraph.herokuapp.com']
 
 
 # Application definition
