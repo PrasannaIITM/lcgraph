@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block script %}
+<script>
+    var dragOptions = {
+            animationDuration: 1000
+        };
+    var data = JSON.parse("{{ data|safe }}") ;
+    
+    var labels = JSON.parse('{{ labels|safe }}');
+
+    console.log(data);
+    console.log(labels);
+$(document).ready(function(){
+    var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            
+            data:data,
+            fill:false,
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        },
+        // Container for pan options
+        pan: {
+            // Boolean to enable panning
+            enabled: true,
+
+            // Panning directions. Remove the appropriate direction to disable 
+            // Eg. 'y' would only allow panning in the y direction
+            mode: 'xy',
+            
+            speed: 10
+        },
+
+        // Container for zoom options
+        zoom: {
+            // Boolean to enable zooming
+            enabled: true,
+            
+            // Zooming directions. Remove the appropriate direction to disable 
+            // Eg. 'y' would only allow zooming in the y direction
+            mode: 'xy',
+        },
+        drag: {
+   borderColor: 'hsl(35, 100%, 60%)',
+   borderWidth: '3',
+   backgroundColor: 'hsl(35, 100%, 60%)',
+},
+    }
+});
+$('#reset_zoom').click(function(){
+    myChart.resetZoom();
+    console.log(myChart);
+});
+
+$('#disable_zoom').click(function(){
+    myChart.ctx.canvas.removeEventListener('wheel', myChart._wheelHandler);
+});
+
+$('#enable_zoom').click(function(){
+    myChart.ctx.canvas.addEventListener('wheel', myChart._wheelHandler);
+});
+
+
+})
+
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>
+    Leetcode Contest Rating of {{username}}
+</h1>
+<canvas id="myChart" width="400" height="200"></canvas>
+<button id="reset_zoom">
+    Reset zoom
+</button>
+
+<button id="disable_zoom">
+    Disable zoom
+</button>
+
+<button id="enable_zoom">
+    Enable zoom
+</button>
+{% endblock %}
+
+
+

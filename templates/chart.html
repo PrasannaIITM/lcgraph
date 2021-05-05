@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block script %}
+<script>
+var data = JSON.parse("{{ data|safe }}") ;
+var labels = JSON.parse('{{ labels|safe }}');
+var ranking = JSON.parse('{{ ranking|safe }}');
+var links = JSON.parse('{{ links|safe }}');
+
+var dps = []; //dataPoints.
+console.log(data);
+console.log(labels);
+console.log(links);
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+    width : 0.95 * window.innerWidth,
+    horizontalAlign: "center",
+    margin: 25,
+    padding: 4,
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	animationEnabled: true,
+	zoomEnabled: true,
+	title: {
+		
+	},
+	data: [{
+        
+		type: "line",
+        cursor:"pointer",
+        click: onClick, 
+        toolTipContent: "{label}<br>Rating: {y}<br>Rank: {name}",
+		dataPoints: dps,
+        markerSize: 5,
+	}]
+});
+
+
+
+function parseDataPoints() {
+  for (var i = 0; i < labels.length; i++)
+    dps.push({
+      label: labels[i],
+      y: data[i],
+      link:links[i],
+      name:ranking[i],
+    });
+};
+
+function addDataPoints(){
+  parseDataPoints();
+  console.log(dps)
+  chart.options.data[0].dataPoints = dps;
+  chart.render();
+}
+addDataPoints(); 
+function onClick(e){ 
+        window.open(e.dataPoint.link,'_blank');  
+};
+
+}
+</script>
+{% endblock %}
+{% block content %}
+<h1>
+    Leetcode Contest Rating of {{username}}
+</h1>
+<div id="chartContainer" style="height: 370px; width: 100%;text-align:center"></div>
+{% endblock %}
