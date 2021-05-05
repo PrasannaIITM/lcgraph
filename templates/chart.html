@@ -61,8 +61,16 @@ function onClick(e){
 </script>
 {% endblock %}
 {% block content %}
-<h1>
+<h1 class="container text-center p-3 mb-2 bg-info text-white display-6">
     Leetcode Contest Rating of {{username}}
 </h1>
-<div id="chartContainer" style="height: 370px; width: 100%;text-align:center"></div>
+<div class="container-fluid">
+<div id="chartContainer" style="height: 500px; width: 80%;" class="col-md-6"></div>
+</div>
+<div class="container text-center p-3 mb-2 bg-info text-white display-6">
+Best Contest Rank : {{bestrank}} in {{bestContest}}
+</div>
+<div class=" container text-center p-3 mb-2 bg-info text-white display-6">
+  Maximum rating : {{highestRating}}
+  </div>
 {% endblock %}

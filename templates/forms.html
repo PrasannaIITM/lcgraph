@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{%load crispy_forms_tags %} 
 {% block content %}
-<form method="POST" action=".">{% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Enter Username</button>
+<h1 class="container text-center p-3 mb-2 bg-info text-white display-6">
+    Enter Leetcode Username
+</h1>
+<form method="POST" action="." class="container text-center">{% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit">Enter</button>
 </form>
 {% endblock %}

@@ -35,15 +35,22 @@ def new(request):
             data = []
             ranking = []
             links = []
+            bestrank = float("inf")
+            bestContest = "No Contests Given"
+            highestRating = 0
             response = response.json()
             for item in response["data"]["userContestRankingHistory"]:
                 labels.append(item["contest"]["title"])
                 data.append(int(item["rating"]))
+                highestRating = max(highestRating, int(item["rating"]))
                 ranking.append(int(item["ranking"]))
+                if int(item["ranking"]) != 0 and bestrank > int(item["ranking"]):
+                    bestrank = int(item["ranking"])
+                    bestContest = item["contest"]["title"]
                 currlink = "https://leetcode.com/contest/"+"-".join(item["contest"]["title"].split()).lower()+"/ranking"
                 links.append(currlink)
             print(data, labels,links)
-            return render(request, "chart.html", {"response":response, "data":json.dumps(data), "labels":json.dumps(labels), "username":username, "ranking":ranking, "links":json.dumps(links)})
+            return render(request, "chart.html", {"response":response, "data":json.dumps(data), "labels":json.dumps(labels), "username":username, "ranking":ranking, "links":json.dumps(links), "bestrank":bestrank, "highestRating":highestRating, "bestContest":bestContest})
         else:
             return HttpResponse('<h1>Username incorrect</h1>')
 
